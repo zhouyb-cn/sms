@@ -3,9 +3,12 @@
 namespace Zhouyb\Sms;
 
 use GuzzleHttp\Client;
+use Zhouyb\Sms\Exception\HttpException;
 
 class Sms 
 {
+
+	const URL = 'http://sms.253.com/msg/send/json';
 
 	protected $account;
 	protected $password;
@@ -20,7 +23,6 @@ class Sms
 	}
 
 	public function sendSms($phone, $message) {
-		$url = 'http://sms.253.com/msg/send/json';
 
 		$param = [
 			'account' => $this->account,
@@ -29,11 +31,16 @@ class Sms
 			'msg' => $message,
 		];
 
-		$response = $this->getHttpClient()->request('POST', $url, [
-			'json' => $param
-		])->getBody()->getContents();
+		try {
+			$response = $this->getHttpClient()->request('POST', self::URL, [
+				'json' => $param
+			])->getBody()->getContents();
 
-		return json_decode($response, true);
+			return json_decode($response, true);
+		} catch (\Exception $e) {
+			throw new HttpException($e->getMessage(), $e->getCode(), $e);
+		}
+
 	}
 }
 

@@ -1,6 +1,6 @@
 <h1 align="center"> sms </h1>
 
-<p align="center"> send sms package..</p>
+<p align="center"> 创蓝253发短信package </p>
 
 
 ## Installing
@@ -11,7 +11,27 @@ $ composer require zhouyb/sms -vvv
 
 ## Usage
 
-TODO
+首先需要先在[创蓝253]()注册账号，获取account和password
+
+```
+use Zhouyb\Sms\Sms;
+
+$account = '****';
+$password = '****';
+
+$sms = new Sms($account, $password);
+
+$response = $sms->sendSms('133********', '您的验证码为1032，验证码2小时后失效。');
+
+```
+
+## 参数说明
+
+sendSms(string $phone, string $messaghe)
+
+$phone 要发送的手机号码
+$message 发送的短信内容
+
 
 ## Contributing
 
